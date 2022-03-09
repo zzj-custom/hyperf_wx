@@ -1,0 +1,50 @@
+version: '3.3'
+services:
+  hyperf:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hyperf_base
+    environment:
+      - "APP_ENV=local"
+      - "CRONTAB_ENABLE=true"
+      - "NACOS_HOST=localhost"
+      - "NACOS_PORT=8848"
+    volumes:
+      - ../:/var/www/html
+    ports:
+      - 80:80
+    links:
+      - mysql
+      - redis
+    entrypoint: ["/bin/bash", "-c", "cd /var/www/html/ && composer install --ignore-platform-reqs && php /var/www/html/bin/hyperf.php start"]
+    logging:
+      options:
+        max-size: '1G'
+        max-file: '5'
+      driver: json-file
+    privileged: true
+
+  mysql:
+    restart: always
+    image: mysql:5.7
+    container_name: dcb-mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - 3306:3306
+    volumes:
+      - ../../mysql/data:/var/lib/mysql
+    privileged: true
+
+  redis:
+    image: redis
+    container_name: dcb-redis
+#    command: redis-server --requirepass 123456
+    volumes:
+      - ../../redis/data:/data
+    ports:
+      - 6379:6379
+    privileged: true

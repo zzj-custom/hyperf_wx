@@ -1,0 +1,46 @@
+name: hyperf_init
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      # 部署到腾讯云服务器
+      - name: Deploy to Server
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete --exclude="" --include="" --filter=""
+          path: ""
+          remote_path: /var/www/hyperf_base/
+          remote_host: 49.232.222.252
+          remote_port: 22
+          remote_user: root
+          remote_key: ${{ secrets.TOKEN }}
+
+
+          #执行命令
+      - name: execute shell
+        uses: appleboy/ssh-action@master
+        with:
+          host: 49.232.222.252
+          username: root
+          key: ${{ secrets.TOKEN }}
+          port: 22
+          script: |
+            cd /var/www/hyperf_base/docker
+            docker rm $(docker ps -aq --filter name=hyperf_base)
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
