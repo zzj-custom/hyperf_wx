@@ -23,7 +23,7 @@ jobs:
         with:
           switches: -avzr --delete --exclude="" --include="" --filter=""
           path: ""
-          remote_path: /var/www/hyperf_base/
+          remote_path: /var/www/hyperf_wx/
           remote_host: 49.232.222.252
           remote_port: 22
           remote_user: root
@@ -39,8 +39,7 @@ jobs:
           key: ${{ secrets.TOKEN }}
           port: 22
           script: |
-            cd /var/www/hyperf_base/docker
-            docker rm $(docker ps -aq --filter name=hyperf_base)
+            cd /var/www/hyperf_wx/docker
+            docker rm $(docker ps -aq --filter name=hyperf_wx)
             docker-compose down
-            docker-compose build --no-cache
             docker-compose up -d

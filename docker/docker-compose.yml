@@ -5,9 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hyperf_base
+    container_name: hyperf_wx
     environment:
-      - "APP_ENV=local"
+      - "APP_ENV=dev"
       - "CRONTAB_ENABLE=true"
       - "NACOS_HOST=localhost"
       - "NACOS_PORT=8848"
@@ -18,7 +18,7 @@ services:
     links:
       - mysql
       - redis
-    entrypoint: ["/bin/bash", "-c", "cd /var/www/html/ && composer install --ignore-platform-reqs && php /var/www/html/bin/hyperf.php start"]
+    entrypoint: [ "sh","-c","cd /var/www/html/ && cp .env.dev .env && composer install --ignore-platform-reqs && php /var/www/html/bin/hyperf.php start" ]
     logging:
       options:
         max-size: '1G'
@@ -42,7 +42,7 @@ services:
   redis:
     image: redis
     container_name: dcb-redis
-#    command: redis-server --requirepass 123456
+    #    command: redis-server --requirepass 123456
     volumes:
       - ../../redis/data:/data
     ports:
