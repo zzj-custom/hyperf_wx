@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Request\Index\VerifyTokenRequest;
+
 class IndexController extends AbstractController
 {
     public function index()
@@ -22,5 +24,12 @@ class IndexController extends AbstractController
             'method' => $method,
             'message' => "Hello {$user}.",
         ];
+    }
+
+    public function verifyToken(VerifyTokenRequest $verifyTokenRequest)
+    {
+        var_dump($this->request->all());
+        $params = $verifyTokenRequest->validated();
+        var_dump($params);
     }
 }
