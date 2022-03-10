@@ -1,4 +1,4 @@
-name: hyperf_init
+name: hyperf_wx
 
 on:
   push:
