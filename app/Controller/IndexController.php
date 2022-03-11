@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
 
 class IndexController extends AbstractController
@@ -28,8 +29,13 @@ class IndexController extends AbstractController
 
     public function verifyToken(VerifyTokenRequest $verifyTokenRequest)
     {
-        var_dump($this->request->all());
+        LogUtil::get(__FUNCTION__)->notice('params', [
+            'signature' => $verifyTokenRequest->all()['signature'],
+            'timestamp' => $verifyTokenRequest->all()['timestamp'],
+            'nonce' => $verifyTokenRequest->all()['nonce'],
+            'echostr' => $verifyTokenRequest->all()['echostr'],
+        ]);
         $params = $verifyTokenRequest->validated();
-        var_dump($params);
+        LogUtil::get(__FUNCTION__)->info(json_encode($params, JSON_UNESCAPED_UNICODE));
     }
 }
