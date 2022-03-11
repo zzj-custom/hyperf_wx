@@ -13,6 +13,7 @@ services:
       - "NACOS_PORT=8848"
     volumes:
       - ../:/var/www/html
+      - ../runtime/logs:/tecent/logs
     ports:
       - 80:80
     links:
