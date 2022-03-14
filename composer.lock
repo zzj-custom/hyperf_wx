@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fae8a8b1fc5b9fc949e4695d3b365c03",
+    "content-hash": "d9d88d18d9461985084e0382c8ce6627",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1330,16 +1330,16 @@
         },
         {
             "name": "hyperf/constants",
-            "version": "v2.2.0",
+            "version": "v2.2.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/constants.git",
-                "reference": "7568ff95958644d8c8143f6c534653930c3d23d2"
+                "reference": "2cc989808defb6cf59feabdc0ca64a6600ed8b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/constants/zipball/7568ff95958644d8c8143f6c534653930c3d23d2",
-                "reference": "7568ff95958644d8c8143f6c534653930c3d23d2",
+                "url": "https://api.github.com/repos/hyperf/constants/zipball/2cc989808defb6cf59feabdc0ca64a6600ed8b79",
+                "reference": "2cc989808defb6cf59feabdc0ca64a6600ed8b79",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1387,7 +1387,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2021-07-18T06:50:14+00:00"
+            "time": "2021-11-02T10:40:16+00:00"
         },
         {
             "name": "hyperf/contract",
