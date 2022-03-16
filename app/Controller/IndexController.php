@@ -38,4 +38,8 @@ class IndexController extends AbstractController
         $params = $verifyTokenRequest->validated();
         LogUtil::get(__FUNCTION__)->info(json_encode($params, JSON_UNESCAPED_UNICODE));
     }
+
+    public function yar(){
+        new Yar_Client();
+    }
 }
