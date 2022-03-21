@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
+use App\Task\Bing\BingImagesTask;
 use Hyperf\Crontab\Crontab;
 
 return [
@@ -16,7 +18,7 @@ return [
     'crontab' => [
         (new Crontab())->setName('BingImagesTask')
             ->setRule('*/2 * * * *')
-            ->setCallback([App\Application\Task\Bing\BingImagesTask::class, 'execute'])
+            ->setCallback([BingImagesTask::class, 'execute'])
             ->setMemo('执行获取必应图片'),
     ],
 ];

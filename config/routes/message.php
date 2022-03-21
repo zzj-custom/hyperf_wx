@@ -9,14 +9,9 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+use App\Controller\Wx\MessageController;
 use Hyperf\HttpServer\Router\Router;
 
-
-require 'routes/message.php';
-
-// 添加微信公众号的验证
-Router::get('/index/verifyToken', 'App\Controller\IndexController@verifyToken');
-
-Router::get('/favicon.ico', function () {
-    return '';
+Router::addGroup('/message', function () {
+    Router::get('/getUserMessage', [MessageController::class, 'getUserMessage']);
 });
