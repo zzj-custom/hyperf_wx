@@ -13,5 +13,5 @@ use App\Controller\Wx\MessageController;
 use Hyperf\HttpServer\Router\Router;
 
 Router::addGroup('/message', function () {
-    Router::get('/getUserMessage', [MessageController::class, 'getUserMessage']);
+    Router::post('/getUserMessage', [MessageController::class, 'getUserMessage']);
 });
