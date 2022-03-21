@@ -41,7 +41,7 @@ return [
         // Task Worker 数量，根据您的服务器配置而配置适当的数量
         'task_worker_num' => 8,
         // 因为 `Task` 主要处理无法协程化的方法，所以这里推荐设为 `false`，避免协程下出现数据混淆的情况
-        'task_enable_coroutine' => false,
+        'task_enable_coroutine' => true,
     ],
     'callbacks' => [
         Event::ON_WORKER_START => [Hyperf\Framework\Bootstrap\WorkerStartCallback::class, 'onWorkerStart'],
