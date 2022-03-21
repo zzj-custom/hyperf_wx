@@ -31,19 +31,18 @@ class BingService
     }
 
     /**
-     * @return bool
      * @throws RemoteException
      */
     public function getBingImagesByDay(): bool
     {
         $client = $this->clientFactory->create();
 
-        #开启多协程
+        # 开启多协程
         $parallel = new Parallel(8);
         for ($i = 0; $i < 8; ++$i) {
             $parallel->add(function () use ($client, $i) {
                 sleep($i * 4);
-                //拉取数据
+                // 拉取数据
                 $response = $client->get(sprintf(
                     '%s%s?format=js&idx=%d&n=%d',
                     config('crawler.bing.host'),
@@ -53,14 +52,14 @@ class BingService
                 ))->getBody()->getContents();
                 $response = json_decode($response, true);
 
-                //创建文件夹
+                // 创建文件夹
                 if (! is_dir(BASE_PATH . '/public')) {
                     mkdir(BASE_PATH . '/public', 0777, true);
                 }
 
-                //获取图片
+                // 获取图片
                 foreach ($response['images'] as $value) {
-                    #获取文件名称
+                    # 获取文件名称
                     $extension = pathinfo(explode('&', parse_url($value['url'])['query'])[0])['extension'];
                     file_put_contents(
                         BASE_PATH . '/public/' . sprintf('%s.%s', $value['hsh'], $extension),
@@ -79,8 +78,8 @@ class BingService
         } catch (ParallelExecutionException $e) {
             throw new RemoteException(sprintf(
                 '%s:%s',
-                json_encode($e->getResults(), JSON_UNESCAPED_UNICODE),  //获取协程中的返回值。
-                $e->getThrowables()    //获取协程中出现的异常。
+                json_encode($e->getResults(), JSON_UNESCAPED_UNICODE),  // 获取协程中的返回值。
+                $e->getThrowables()    // 获取协程中出现的异常。
             ));
         }
     }
