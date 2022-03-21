@@ -41,5 +41,6 @@ jobs:
           script: |
             cd /var/www/hyperf_wx/docker
             docker rm $(docker ps -aq --filter name=hyperf_wx)
+            docker-compose build
             docker-compose down
-            docker-compose up -d
+            docker-compose up -d hyperf_wx

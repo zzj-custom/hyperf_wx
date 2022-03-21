@@ -11,11 +11,19 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Domain\Logic\token\TokenLogic;
 use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
+use Hyperf\Di\Annotation\Inject;
 
 class IndexController extends AbstractController
 {
+    /**
+     * @Inject
+     * @var TokenLogic
+     */
+    protected $tokenLogic;
+
     public function index()
     {
         $user = $this->request->input('user', 'Hyperf');
@@ -27,7 +35,11 @@ class IndexController extends AbstractController
         ];
     }
 
-    public function verifyToken(VerifyTokenRequest $verifyTokenRequest)
+    /**
+     * @param VerifyTokenRequest $verifyTokenRequest
+     * @return string
+     */
+    public function verifyToken(VerifyTokenRequest $verifyTokenRequest): string
     {
         LogUtil::get(__FUNCTION__)->notice('params', [
             'signature' => $verifyTokenRequest->all()['signature'],
@@ -36,10 +48,6 @@ class IndexController extends AbstractController
             'echostr' => $verifyTokenRequest->all()['echostr'],
         ]);
         $params = $verifyTokenRequest->validated();
-        LogUtil::get(__FUNCTION__)->info(json_encode($params, JSON_UNESCAPED_UNICODE));
-    }
-
-    public function yar(){
-        new Yar_Client();
+        return $this->tokenLogic->verifyToken($params);
     }
 }
