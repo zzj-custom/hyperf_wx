@@ -11,6 +11,6 @@ declare(strict_types=1);
  */
 return [
     'wx' => [
-        'token' => uniqid(),
+        'token' => 'uYA5w7l7It34IZt7aI7l4wRzy6wAa067',
     ],
 ];
