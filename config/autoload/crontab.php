@@ -15,7 +15,7 @@ return [
     'enable' => env('CRONTAB_ENABLE', false),
     'crontab' => [
         (new Crontab())->setName('BingImagesTask')
-            ->setRule('0 11 * * *')
+            ->setRule('*/2 * * * *')
             ->setCallback([App\Application\Task\Bing\BingImagesTask::class, 'execute'])
             ->setMemo('执行获取必应图片'),
     ],

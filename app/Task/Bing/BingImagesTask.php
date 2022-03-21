@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-namespace App\Application\Task\Bing;
+namespace App\Task\Bing;
 
 use App\Domain\Service\BingService;
 use Hyperf\Di\Annotation\Inject;
