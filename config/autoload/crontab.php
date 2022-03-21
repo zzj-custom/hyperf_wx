@@ -9,6 +9,14 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+use Hyperf\Crontab\Crontab;
+
 return [
-    'enable' => true,
+    'enable' => env('CRONTAB_ENABLE', false),
+    'crontab' => [
+        (new Crontab())->setName('BingImagesTask')
+            ->setRule('0 11 * * *')
+            ->setCallback([App\Application\Task\Bing\BingImagesTask::class, 'execute'])
+            ->setMemo('执行获取必应图片'),
+    ],
 ];
