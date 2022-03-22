@@ -12,17 +12,24 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Domain\Logic\token\TokenLogic;
+use App\Domain\Logic\Wx\WxMessageLogic;
 use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
+use App\Request\Wx\Message\CheckSignatureRequest;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Utils\Arr;
 
 class IndexController extends AbstractController
 {
     /**
      * @Inject
-     * @var TokenLogic
      */
-    protected $tokenLogic;
+    protected TokenLogic $tokenLogic;
+
+    /**
+     * @Inject
+     */
+    protected WxMessageLogic $wxMessageLogic;
 
     public function index()
     {
@@ -35,19 +42,37 @@ class IndexController extends AbstractController
         ];
     }
 
-    /**
-     * @param VerifyTokenRequest $verifyTokenRequest
-     * @return string
-     */
-    public function verifyToken(VerifyTokenRequest $verifyTokenRequest): string
+    public function verifyToken(VerifyTokenRequest $verifyTokenRequest)
+    {
+        //获取请求参数
+        $params = $verifyTokenRequest->validated();
+        $toUserName = Arr::get($params, 'ToUserName');
+        $fromUserName = Arr::get($params, 'FromUserName');
+        $createTime = Arr::get($params, 'CreateTime');
+        $msgType = Arr::get($params, 'MsgType');
+        $content = Arr::get($params, 'Content');
+        $msgId = Arr::get($params, 'MsgId');
+        $openid = Arr::get($params, 'openid');
+
+        $method = "{$msgType}MessageHandle";
+        $response = $this->wxMessageLogic->{$method}($toUserName, $msgType, $content, $openid);
+        return $this->response->xml($response);
+    }
+
+    public function checkSignature(CheckSignatureRequest $checkSignatureRequest): string
     {
         LogUtil::get(__FUNCTION__)->notice('params', [
-            'signature' => $verifyTokenRequest->all()['signature'],
-            'timestamp' => $verifyTokenRequest->all()['timestamp'],
-            'nonce' => $verifyTokenRequest->all()['nonce'],
-            'echostr' => $verifyTokenRequest->all()['echostr'],
+            'signature' => $checkSignatureRequest->all()['signature'],
+            'timestamp' => $checkSignatureRequest->all()['timestamp'],
+            'nonce' => $checkSignatureRequest->all()['nonce'],
+            'echostr' => $checkSignatureRequest->all()['echostr'],
         ]);
-        $params = $verifyTokenRequest->validated();
+        $params = $checkSignatureRequest->validated();
         return $this->tokenLogic->verifyToken($params);
+    }
+
+    public function responseMsg()
+    {
+        var_dump($this->request->all());
     }
 }

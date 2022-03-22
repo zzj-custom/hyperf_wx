@@ -11,11 +11,10 @@ declare(strict_types=1);
  */
 use Hyperf\HttpServer\Router\Router;
 
-
 require 'routes/message.php';
 
 // 添加微信公众号的验证
-Router::get('/index/verifyToken', 'App\Controller\IndexController@verifyToken');
+Router::addRoute(['GET', 'POST'], '/index/verifyToken', 'App\Controller\IndexController@verifyToken');
 
 Router::get('/favicon.ico', function () {
     return '';
