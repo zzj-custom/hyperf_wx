@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace App\Domain\Logic\Wx;
 
+use App\Constants\Wx\MessageEnum;
+
 class WxMessageLogic
 {
     public function textMessageHandle(
@@ -18,13 +20,14 @@ class WxMessageLogic
         string $msgType,
         string $content,
         string $openid
-    ): array {
-        return [
-            'ToUserName' => $openid,   //接收方帐号（收到的OpenID）
-            'FromUserName' => $toUserName, //开发者微信号
-            'CreateTime' => time(),  //消息创建时间 （整型）
-            'MsgType' => $msgType, //消息类型，文本为text
-            'Content' => '测试数据', //回复的消息内容（换行：在content中能够换行，微信客户端就支持换行显示）
-        ];
+    ): string {
+        return sprintf(
+            MessageEnum::TEXT_TEMPLATE,
+            $openid,  //接收方帐号（收到的OpenID）
+            $toUserName,//开发者微信号
+            time(),//消息创建时间 （整型）
+            $msgType,//消息类型，文本为text
+            '测试数据'//回复的消息内容（换行：在content中能够换行，微信客户端就支持换行显示）
+        );
     }
 }

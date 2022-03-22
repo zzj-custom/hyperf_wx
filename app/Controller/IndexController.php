@@ -55,8 +55,7 @@ class IndexController extends AbstractController
         $openid = Arr::get($params, 'openid');
 
         $method = "{$msgType}MessageHandle";
-        $response = $this->wxMessageLogic->{$method}($toUserName, $msgType, $content, $openid);
-        return $this->response->xml($response);
+        return $this->wxMessageLogic->{$method}($toUserName, $msgType, $content, $openid);
     }
 
     public function checkSignature(CheckSignatureRequest $checkSignatureRequest): string
