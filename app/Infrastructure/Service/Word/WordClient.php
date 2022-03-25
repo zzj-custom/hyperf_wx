@@ -34,10 +34,10 @@ class WordClient
         $client = $this->clientFactory->create();
 
         # 开启多协程
-        $parallel = new Parallel(40);
-        for ($i = 0; $i < 40; ++$i) {
+        $parallel = new Parallel(55);
+        for ($i = 0; $i < 55; ++$i) {
             $parallel->add(function () use ($client, $i) {
-                sleep($i * 1);
+                sleep($i * 5);
 
                 //随机取某个类型
                 $str = str_shuffle('abcdefg');

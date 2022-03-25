@@ -36,7 +36,7 @@ class YellowWordClient
         $parallel = new Parallel(55);
         for ($i = 0; $i < 55; ++$i) {
             $parallel->add(function () use ($client, $i) {
-                sleep($i * 1);
+                sleep($i * 5);
 
                 //获取uri
                 $uri = config('crawler.yellow_word.host');

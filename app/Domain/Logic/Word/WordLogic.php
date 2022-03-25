@@ -13,6 +13,7 @@ namespace App\Domain\Logic\Word;
 
 use App\Infrastructure\Service\Word\WordClient;
 use App\Infrastructure\Service\Word\YellowWordClient;
+use App\Infrastructure\Utils\LogUtil;
 use App\Model\Word\BeautifulWordModel;
 use App\Model\Word\YellowWordModel;
 use Contract\Exceptions\RemoteException;
@@ -39,6 +40,7 @@ class WordLogic
     public function handleWordMessage(): bool
     {
         $response = $this->wordClient->handleBeautiful();
+        LogUtil::get(__FUNCTION__)->info(__FUNCTION__, $response);
         return BeautifulWordModel::insert($response);
     }
 
@@ -64,6 +66,7 @@ class WordLogic
                 }
             }
         }
+        LogUtil::get(__FUNCTION__)->info(__FUNCTION__, $response);
         return YellowWordModel::insert(array_values($response));
     }
 }

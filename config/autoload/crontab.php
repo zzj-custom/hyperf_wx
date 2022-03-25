@@ -23,16 +23,16 @@ return [
             ->setCallback([BingImagesTask::class, 'execute'])
             ->setMemo('执行获取必应图片'),
         (new Crontab())->setName('BeautifulWord')
-            ->setRule('*/1 * * * *')
+            ->setRule('*/5 * * * *')
             ->setCallback([WordTask::class, 'execute'])
             ->setMemo('获取每日一词'),
         (new Crontab())->setName('YellowWord')
-            ->setRule('*/1 * * * *')
+            ->setRule('*/5 * * * *')
             ->setCallback([YellowWordTask::class, 'execute'])
             ->setMemo('获取黄段子'),
-        (new Crontab())->setName('CompanyWxSendMessage')
-            ->setRule('*/2 * * * *')
-            ->setCallback([SendMessageTask::class, 'execute'])
-            ->setMemo('企业微信发送每日一句'),
+        //        (new Crontab())->setName('CompanyWxSendMessage')
+        //            ->setRule('*/2 * * * *')
+        //            ->setCallback([SendMessageTask::class, 'execute'])
+        //            ->setMemo('企业微信发送每日一句'),
     ],
 ];
