@@ -19,7 +19,7 @@ services:
     links:
       - mysql
       - redis
-    entrypoint: [ "sh","-c","cd /var/www/html/ && cp .env.dev .env && composer install --ignore-platform-reqs && php /var/www/html/bin/hyperf.php start" ]
+    entrypoint: [ "sh","-c","cd /var/www/html/  && php bin/hyperf.php migrate && cp .env.dev .env && composer install --ignore-platform-reqs && php /var/www/html/bin/hyperf.php start" ]
     logging:
       options:
         max-size: '1G'

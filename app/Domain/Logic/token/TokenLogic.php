@@ -15,12 +15,8 @@ use Hyperf\Utils\Arr;
 
 class TokenLogic
 {
-
     /**
-     * 验证微信token
-     *
-     * @param array $params
-     * @return string
+     * 验证微信token.
      */
     public function verifyToken(array $params): string
     {

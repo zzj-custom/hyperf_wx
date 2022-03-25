@@ -14,4 +14,5 @@ use Hyperf\HttpServer\Router\Router;
 
 Router::addGroup('/message', function () {
     Router::post('/getUserMessage', [MessageController::class, 'getUserMessage']);
+    Router::post('/test', [MessageController::class, 'test']);
 });

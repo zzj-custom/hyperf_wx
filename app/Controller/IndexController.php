@@ -12,11 +12,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Domain\Logic\token\TokenLogic;
+use App\Domain\Logic\Word\WordLogic;
 use App\Domain\Logic\Wx\WxMessageLogic;
+use App\Domain\Service\BingService;
+use App\Infrastructure\Service\Word\WordClient;
 use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
 use App\Request\Wx\Message\CheckSignatureRequest;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Guzzle\ClientFactory;
 use Hyperf\Utils\Arr;
 
 class IndexController extends AbstractController
@@ -70,8 +74,30 @@ class IndexController extends AbstractController
         return $this->tokenLogic->verifyToken($params);
     }
 
+    /**
+     * @Inject()
+     * @var WordLogic
+     */
+    protected WordLogic $wordLogic;
+
+    /**
+     * @Inject()
+     * @var BingService
+     */
+    protected BingService $bingService;
+
+    /**
+     * @Inject()
+     * @var ClientFactory
+     */
+    protected $clientFactory;
+
     public function responseMsg()
     {
-        var_dump($this->request->all());
+        return $this->wordLogic->handleYellowWordMessage();
+        $data = $this->clientFactory->create()->get('https://m2.qiushibaike.com/article/list/text?type=refresh&page=&count=12')->getBody()->getContents();
+        return json_decode($data, true);
+        return $this->bingService->schedule('getBingImagesByDay');
+        return $this->wordLogic->handleWordMessage();
     }
 }

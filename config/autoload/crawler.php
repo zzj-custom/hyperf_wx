@@ -16,4 +16,10 @@ return [
             'crawler_image' => 'HPImageArchive.aspx',
         ],
     ],
+    'word' => [
+        'host' => 'https://v1.hitokoto.cn',
+    ],
+    'yellow_word' => [
+        'host' => 'https://res.abeim.cn/api-text_wu',
+    ],
 ];

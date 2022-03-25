@@ -15,6 +15,7 @@ require 'routes/message.php';
 
 // 添加微信公众号的验证
 Router::addRoute(['GET', 'POST'], '/index/verifyToken', 'App\Controller\IndexController@verifyToken');
+Router::addRoute(['GET', 'POST'], '/index/responseMsg', 'App\Controller\IndexController@responseMsg');
 
 Router::get('/favicon.ico', function () {
     return '';
