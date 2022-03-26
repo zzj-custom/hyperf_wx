@@ -11,11 +11,13 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Domain\Logic\Bing\BingLogic;
 use App\Domain\Logic\token\TokenLogic;
 use App\Domain\Logic\Word\WordLogic;
 use App\Domain\Logic\Wx\WxMessageLogic;
 use App\Domain\Service\BingService;
-use App\Infrastructure\Service\Word\WordClient;
+use App\Infrastructure\Service\Bing\BingAllClient;
+use App\Infrastructure\Service\Qiniu\QiNiuFileUpload;
 use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
 use App\Request\Wx\Message\CheckSignatureRequest;
@@ -34,6 +36,28 @@ class IndexController extends AbstractController
      * @Inject
      */
     protected WxMessageLogic $wxMessageLogic;
+
+    /**
+     * @Inject
+     */
+    protected WordLogic $wordLogic;
+
+    /**
+     * @Inject
+     */
+    protected BingService $bingService;
+
+    /**
+     * @Inject
+     * @var ClientFactory
+     */
+    protected $clientFactory;
+
+    /**
+     * @Inject
+     * @var BingAllClient
+     */
+    protected BingAllClient $bingAllClient;
 
     public function index()
     {
@@ -76,24 +100,20 @@ class IndexController extends AbstractController
 
     /**
      * @Inject()
-     * @var WordLogic
+     * @var QiNiuFileUpload
      */
-    protected WordLogic $wordLogic;
+    protected QiNiuFileUpload $qiniu;
 
     /**
      * @Inject()
-     * @var BingService
+     * @var BingLogic
      */
-    protected BingService $bingService;
-
-    /**
-     * @Inject()
-     * @var ClientFactory
-     */
-    protected $clientFactory;
+    protected BingLogic $bingLogic;
 
     public function responseMsg()
     {
+        return $this->bingLogic->getBingImagesByDay();
+        return $this->bingAllClient->request();
         return $this->wordLogic->handleYellowWordMessage();
         $data = $this->clientFactory->create()->get('https://m2.qiushibaike.com/article/list/text?type=refresh&page=&count=12')->getBody()->getContents();
         return json_decode($data, true);

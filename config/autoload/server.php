@@ -42,6 +42,9 @@ return [
         'task_worker_num' => 8,
         // 因为 `Task` 主要处理无法协程化的方法，所以这里推荐设为 `false`，避免协程下出现数据混淆的情况
         'task_enable_coroutine' => true,
+        // 将 public 替换为上传目录
+        'document_root' => BASE_PATH . '/public',
+        'enable_static_handler' => true,
     ],
     'callbacks' => [
         Event::ON_WORKER_START => [Hyperf\Framework\Bootstrap\WorkerStartCallback::class, 'onWorkerStart'],
