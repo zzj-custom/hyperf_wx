@@ -23,5 +23,11 @@ return [
     'yellow_word' => [
         'host' => 'https://res.abeim.cn/api-text_wu',
     ],
+    'qiushibaike' => [
+        'host' => 'https://m2.qiushibaike.com',
+        'api' => [
+            'article' => '/article/list/text',
+        ],
+    ],
     'user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36',
 ];

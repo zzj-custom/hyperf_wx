@@ -12,6 +12,7 @@ declare(strict_types=1);
 use Hyperf\HttpServer\Router\Router;
 
 require 'routes/message.php';
+require 'routes/file.php';
 
 // 添加微信公众号的验证
 Router::addRoute(['GET', 'POST'], '/index/verifyToken', 'App\Controller\IndexController@verifyToken');

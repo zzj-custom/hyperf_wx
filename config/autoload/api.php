@@ -15,7 +15,7 @@ return [
         'corpid' => 'ww9a774772b7dd06c9',   //企业Id
         'corpsecret' => 'Dci5cEQT1fjrtDkVPDU_liAHvXlCpepJQwz-3EPJGuU',
         'agentid' => 1000002,
-//        'to_user' => 'YuChunDeTuBoShu',
+        //        'to_user' => 'YuChunDeTuBoShu',
         'to_user' => 'ZouZhuJia',
     ],
 ];

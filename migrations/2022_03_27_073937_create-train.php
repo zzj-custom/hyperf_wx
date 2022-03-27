@@ -14,20 +14,18 @@ use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Db;
 
-class CreateBingImages extends Migration
+class CreateTrain extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('bing_images', function (Blueprint $table) {
+        Schema::create('train', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->unique()->nullable(false)->comment('图片名称');
-            $table->string('images_url')->nullable(false)->comment('图片地址');
-            $table->date('date')->nullable(false)->comment('图片时间');
-            $table->integer('click_count')->default(0)->comment('点击次数');
-            $table->integer('download_count')->default(0)->comment('下载次数');
+            $table->char('md5_txt', 32)->unique()->comment('对联md5序列');
+            $table->string('in_train')->nullable()->comment('上联');
+            $table->string('out_train')->nullable()->comment('下联');
             $table->timestamp('created_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP'))->comment('创建时间');
             $table->timestamp('updated_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新时间');
 
@@ -41,7 +39,7 @@ class CreateBingImages extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
 
             //设置表的comment
-            $table->comment('必应图片');
+            $table->comment('对联');
         });
     }
 
@@ -50,6 +48,6 @@ class CreateBingImages extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bing_images');
+        Schema::dropIfExists('train');
     }
 }

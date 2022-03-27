@@ -22,6 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 class BingClient
 {
     protected Client $client;
+
     private ClientFactory $clientFactory;
 
     public function __construct(ClientFactory $clientFactory)

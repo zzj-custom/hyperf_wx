@@ -47,6 +47,7 @@ class BingAllClient
     }
 
     /**
+     * @param mixed $page
      * @throws RemoteException
      */
     public function request($page): array

@@ -33,15 +33,14 @@ class CreateUsersTable extends Migration
             $table->timestamp('created_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP'))->comment('创建时间');
             $table->timestamp('updated_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新时间');
 
-
             // 指定表存储引擎
             $table->engine = 'InnoDB';
 
             // 指定数据表的默认字符集
-            $table->charset = 'utf8';
+            $table->charset = 'utf8mb4';
 
             // 指定数据表默认的排序规则
-            $table->collation = 'utf8_unicode_ci';
+            $table->collation = 'utf8mb4_unicode_ci';
 
             //设置表的comment
             $table->comment('每日一词');

@@ -16,16 +16,18 @@ use Hyperf\Database\Model\Builder;
 
 /**
  * Class TrainModel.
+ * * @method static Builder|static filterByInTrain(string $name)
+ * * @method static Builder|static filterByOutTrain(string $name)
  * * @method static Builder|static filterByMd5Txt(string $md5Txt)
  */
-class YellowWordModel extends Model
+class TrainModel extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'yellow_word';
+    protected $table = 'train';
 
     /**
      * The connection name for the model.
@@ -42,7 +44,8 @@ class YellowWordModel extends Model
     protected $fillable = [
         'id',
         'md5_txt',
-        'text',
+        'in_train',
+        'out_train',
     ];
 
     /**
@@ -53,8 +56,19 @@ class YellowWordModel extends Model
     protected $casts = [
         'id' => 'integer',
         'md5_txt' => 'string',
-        'text' => 'string',
+        'in_train' => 'string',
+        'out_train' => 'string',
     ];
+
+    public function scopeFilterByInTrain(Builder $query, string $name): Builder
+    {
+        return $query->where('in_train', '=', $name);
+    }
+
+    public function scopeFilterByOutTrain(Builder $query, string $name): Builder
+    {
+        return $query->where('out_train', '=', $name);
+    }
 
     public function scopeFilterByMd5Txt(Builder $query, string $md5Txt): Builder
     {

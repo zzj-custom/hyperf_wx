@@ -55,9 +55,18 @@ class IndexController extends AbstractController
 
     /**
      * @Inject
-     * @var BingAllClient
      */
     protected BingAllClient $bingAllClient;
+
+    /**
+     * @Inject
+     */
+    protected QiNiuFileUpload $qiniu;
+
+    /**
+     * @Inject
+     */
+    protected BingLogic $bingLogic;
 
     public function index()
     {
@@ -98,20 +107,9 @@ class IndexController extends AbstractController
         return $this->tokenLogic->verifyToken($params);
     }
 
-    /**
-     * @Inject()
-     * @var QiNiuFileUpload
-     */
-    protected QiNiuFileUpload $qiniu;
-
-    /**
-     * @Inject()
-     * @var BingLogic
-     */
-    protected BingLogic $bingLogic;
-
     public function responseMsg()
     {
+        return $this->wordLogic->handleQiuShiBaiKe();
         return $this->bingLogic->getBingImagesByDay();
         return $this->bingAllClient->request();
         return $this->wordLogic->handleYellowWordMessage();

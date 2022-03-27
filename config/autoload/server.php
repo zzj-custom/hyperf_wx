@@ -37,6 +37,7 @@ return [
         Constant::OPTION_MAX_REQUEST => 100000,
         Constant::OPTION_SOCKET_BUFFER_SIZE => 2 * 1024 * 1024,
         Constant::OPTION_BUFFER_OUTPUT_SIZE => 2 * 1024 * 1024,
+        Constant::OPTION_PACKAGE_MAX_LENGTH => 100 * 1024 * 1024,  //设置文件上传最大
         // 这里省略了其它不相关的配置项
         // Task Worker 数量，根据您的服务器配置而配置适当的数量
         'task_worker_num' => 8,

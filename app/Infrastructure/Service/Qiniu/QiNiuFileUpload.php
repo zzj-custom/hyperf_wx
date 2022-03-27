@@ -28,8 +28,6 @@ class QiNiuFileUpload
     }
 
     /**
-     * @param string $file
-     * @return bool
      * @throws RemoteException
      */
     public function fileUpload(string $file): bool

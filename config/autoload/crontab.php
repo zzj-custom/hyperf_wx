@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 use App\Task\Bing\BingImagesTask;
 use App\Task\CompanyWx\SendMessageTask;
+use App\Task\Word\QiuShiBaiKeTask;
 use App\Task\Word\WordTask;
 use App\Task\Word\YellowWordTask;
 use Hyperf\Crontab\Crontab;
@@ -23,13 +24,17 @@ return [
             ->setCallback([BingImagesTask::class, 'execute'])
             ->setMemo('执行获取必应图片'),
         (new Crontab())->setName('BeautifulWord')
-            ->setRule('*/5 * * * *')
+            ->setRule('*/1 * * * *')
             ->setCallback([WordTask::class, 'execute'])
             ->setMemo('获取每日一词'),
         (new Crontab())->setName('YellowWord')
-            ->setRule('*/5 * * * *')
+            ->setRule('*/1 * * * *')
             ->setCallback([YellowWordTask::class, 'execute'])
             ->setMemo('获取黄段子'),
+        (new Crontab())->setName('QiuShiBaiKe')
+            ->setRule('*/2 * * * *')
+            ->setCallback([QiuShiBaiKeTask::class, 'execute'])
+            ->setMemo('糗事百科'),
         //        (new Crontab())->setName('CompanyWxSendMessage')
         //            ->setRule('*/2 * * * *')
         //            ->setCallback([SendMessageTask::class, 'execute'])

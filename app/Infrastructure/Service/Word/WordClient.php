@@ -31,11 +31,15 @@ class WordClient
      */
     public function handleBeautiful(): array
     {
-        $client = $this->clientFactory->create();
+        $client = $this->clientFactory->create([
+            'User-Agent' => config('crawler.user_agent'),
+            'Accept' => 'application/json',
+            'timeout' => 60,
+        ]);
 
         # 开启多协程
-        $parallel = new Parallel(55);
-        for ($i = 0; $i < 55; ++$i) {
+        $parallel = new Parallel(5);
+        for ($i = 0; $i < 5; ++$i) {
             $parallel->add(function () use ($client, $i) {
                 sleep($i * 5);
 
