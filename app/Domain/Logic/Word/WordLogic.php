@@ -112,6 +112,7 @@ class WordLogic
 
         //插入数据
         if (! empty($insertData)) {
+            var_dump(count($insertData));
             YellowWordModel::insert($insertData);
         } else {
             //如果没有那么后面的也是重复数据

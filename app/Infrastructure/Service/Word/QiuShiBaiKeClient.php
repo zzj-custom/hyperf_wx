@@ -106,9 +106,7 @@ class QiuShiBaiKeClient
         }
 
         //redis增加
-        if (RedisUtil::exists(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}")) {
-            RedisUtil::incr(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}");
-        }
+        RedisUtil::incr(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}");
 
         return Arr::get($response['items']);
     }

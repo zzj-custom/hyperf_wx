@@ -21,6 +21,7 @@ use App\Infrastructure\Service\Qiniu\QiNiuFileUpload;
 use App\Infrastructure\Utils\LogUtil;
 use App\Request\Index\VerifyTokenRequest;
 use App\Request\Wx\Message\CheckSignatureRequest;
+use App\Task\Word\QiuShiBaiKeTask;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
 use Hyperf\Utils\Arr;
@@ -107,8 +108,15 @@ class IndexController extends AbstractController
         return $this->tokenLogic->verifyToken($params);
     }
 
+    /**
+     * @Inject()
+     * @var QiuShiBaiKeTask
+     */
+    protected QiuShiBaiKeTask $qiuShiBaiKeTask;
+
     public function responseMsg()
     {
+        return $this->qiuShiBaiKeTask->execute();
         return $this->wordLogic->handleQiuShiBaiKe();
         return $this->bingLogic->getBingImagesByDay();
         return $this->bingAllClient->request();
