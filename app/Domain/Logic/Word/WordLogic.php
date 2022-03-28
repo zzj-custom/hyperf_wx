@@ -114,10 +114,12 @@ class WordLogic
         if (! empty($insertData)) {
             var_dump(count($insertData));
             YellowWordModel::insert($insertData);
-        } else {
-            //如果没有那么后面的也是重复数据
-            RedisUtil::set(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}", 1);
         }
+
+//        else {
+//            //如果没有那么后面的也是重复数据
+//            RedisUtil::set(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}", 1);
+//        }
         return $insertData;
     }
 }
