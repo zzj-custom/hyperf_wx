@@ -33,7 +33,7 @@ services:
     container_name: dcb-mysql
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: Zqp113217!@
     ports:
       - 3306:3306
     volumes:
