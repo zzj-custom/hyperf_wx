@@ -35,8 +35,8 @@ class QiuShiBaiKeClient
         // $options 等同于 GuzzleHttp\Client 构造函数的 $config 参数
         $options = [
             'User-Agent' => config('crawler.user_agent'),
-            'Accept' => 'application/json',
-            'timeout' => 60,
+            'Accept'     => 'application/json',
+            'timeout'    => 60,
         ];
 
         // $client 为协程化的 GuzzleHttp\Client 对象
@@ -45,9 +45,16 @@ class QiuShiBaiKeClient
 
     public function request(string $type = 'latest'): array
     {
+        $requestId = uniqid();
+
         try {
             //初始化页数
             if (! RedisUtil::exists(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}")) {
+                RedisUtil::set(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}", 1);
+            }
+
+            $page = RedisUtil::get(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}");
+            if ($page > 1000) {
                 RedisUtil::set(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}", 1);
             }
 
@@ -60,16 +67,22 @@ class QiuShiBaiKeClient
             //获取options
             $options = [
                 'query' => [
-                    'type' => 'text', //参数type为类型，latest最新、text文本、image图片、video视频
-                    'page' => RedisUtil::get(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}"), //参数page为页码
+                    'type'  => 'text', //参数type为类型，latest最新、text文本、image图片、video视频
+                    'page'  => RedisUtil::get(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}"), //参数page为页码
                     'count' => 12, //参数count为每页数量
                 ],
             ];
 
+            //添加日志
+            LogUtil::get(__CLASS__)->notice($requestId, [
+                'options' => $options,
+                'uri'     => $uri,
+            ]);
+
             //获取数据
             $response = $this->client->get($uri, $options);
 
-            return $this->handleResponse($response, $type);
+            return $this->handleResponse($response, $type, $requestId);
         } catch (GuzzleException $exception) {
             //添加日志
             LogUtil::get(__CLASS__)->info(__CLASS__, [
@@ -83,10 +96,14 @@ class QiuShiBaiKeClient
     /**
      * @throws RemoteException
      */
-    public function handleResponse(ResponseInterface $response, string $type): array
+    public function handleResponse(ResponseInterface $response, string $type, string $requestId): array
     {
         //获取content
         $response = $response->getBody()->getContents();
+
+        //添加返回日志
+        LogUtil::get(__CLASS__)->notice($requestId, [$response]);
+
         if (empty($response)) {
             throw new RemoteException(
                 ErrorCode::getMessage(ErrorCode::QIUSHIBAIKE_DATA_NOT_FOUND),
@@ -98,7 +115,7 @@ class QiuShiBaiKeClient
 
         //判断请求code
         $err = Arr::get($response, 'err');
-        if (! isset($err) && $err != 0) {
+        if ($err != 0) {
             throw new RemoteException(
                 ErrorCode::getMessage(ErrorCode::QIUSHIBAIKE_DATA_ERROR),
                 ErrorCode::QIUSHIBAIKE_DATA_ERROR
@@ -108,6 +125,6 @@ class QiuShiBaiKeClient
         //redis增加
         RedisUtil::incr(WordEnum::QIUSHIBAIKE_REDIS_KEY . ":{$type}");
 
-        return Arr::get($response['items']);
+        return Arr::get($response, 'items');
     }
 }

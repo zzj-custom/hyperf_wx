@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Infrastructure\Service\Word;
 
 use App\Infrastructure\Utils\LogUtil;
@@ -33,15 +34,15 @@ class WordClient
     {
         $client = $this->clientFactory->create([
             'User-Agent' => config('crawler.user_agent'),
-            'Accept' => 'application/json',
-            'timeout' => 60,
+            'Accept'     => 'application/json',
+            'timeout'    => 60,
         ]);
 
         # 开启多协程
         $parallel = new Parallel(5);
-        for ($i = 0; $i < 5; ++$i) {
+        for ($i = 0; $i < 20; ++$i) {
             $parallel->add(function () use ($client, $i) {
-                sleep($i * 5);
+                sleep($i * 2);
 
                 //随机取某个类型
                 $str = str_shuffle('abcdefg');
@@ -68,7 +69,7 @@ class WordClient
         } catch (ParallelExecutionException $e) {
             LogUtil::get(__FUNCTION__)->info(__CLASS__, [
                 'message' => $e->getMessage(),
-                'code' => $e->getCode(),
+                'code'    => $e->getCode(),
             ]);
             throw new RemoteException($e->getMessage(), $e->getCode());
         }
@@ -80,12 +81,12 @@ class WordClient
 
         if (! empty($contents)) {
             foreach ($contents as $value) {
-                $value = json_decode($value, true);
+                $value    = json_decode($value, true);
                 $response = Arr::prepend($response, [
-                    'hitokoto' => Arr::get($value, 'hitokoto'),
-                    'type' => Arr::get($value, 'type'),
-                    'from' => Arr::get($value, 'from'),
-                    'from_who' => Arr::get($value, 'from_who'),
+                    'hitokoto'    => Arr::get($value, 'hitokoto'),
+                    'type'        => Arr::get($value, 'type'),
+                    'from'        => Arr::get($value, 'from'),
+                    'from_who'    => Arr::get($value, 'from_who'),
                     'commit_from' => Arr::get($value, 'commit_from'),
                 ]);
             }

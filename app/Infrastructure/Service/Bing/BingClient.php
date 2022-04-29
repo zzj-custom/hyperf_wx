@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Infrastructure\Service\Bing;
 
 use App\Constants\ErrorCode;
@@ -32,8 +33,8 @@ class BingClient
         // $options 等同于 GuzzleHttp\Client 构造函数的 $config 参数
         $options = [
             'User-Agent' => config('crawler.user_agent'),
-            'Accept' => 'application/json',
-            'timeout' => 60,
+            'Accept'     => 'application/json',
+            'timeout'    => 60,
         ];
 
         // $client 为协程化的 GuzzleHttp\Client 对象
@@ -55,9 +56,9 @@ class BingClient
         $options = [
             'query' => [
                 'format' => 'js', //非必填，默认返回json 返回数据格式，json和xml,
-                'idx' => 0,  // 非必填 请求图片截止天数, 0 今天, -1 截止中明天 （预准备的）1 截止至昨天，类推（目前最多获取到7天前的图片）
-                'n' => 1, // 1-8 返回请求数量，目前最多一次获取8张
-                'mkt' => 'zh-CN',  //非必填 地区
+                'idx'    => 0,  // 非必填 请求图片截止天数, 0 今天, -1 截止中明天 （预准备的）1 截止至昨天，类推（目前最多获取到7天前的图片）
+                'n'      => 1, // 1-8 返回请求数量，目前最多一次获取8张
+                'mkt'    => 'zh-CN',  //非必填 地区
             ],
         ];
 

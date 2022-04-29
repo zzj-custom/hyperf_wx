@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Domain\Logic\File;
 
 use App\Constants\ErrorCode;
@@ -19,9 +20,7 @@ class FileLogic
 {
     public function uploadFile($upload)
     {
-        var_dump($this->getBigFileContent($upload->getRealPath()));
-        return [];
-        $stream = fopen($upload->getRealPath(), 'r+');
+        $this->getBigFileContent($upload->getRealPath());
     }
 
     public function getBigFileContent($filePath)

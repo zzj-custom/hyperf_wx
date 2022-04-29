@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Infrastructure\Service\CompanyWxApiClient\Request;
 
 use App\Infrastructure\Utils\RedisUtil;
@@ -25,7 +26,7 @@ trait TokenRequest
 
         if (empty($accessToken)) {
             $response = $this->request('/cgi-bin/gettoken', [
-                'corpid' => $key,
+                'corpid'     => $key,
                 'corpsecret' => config('api.company_wx.corpsecret'),
             ]);
             $accessToken = Arr::get($response, 'access_token');

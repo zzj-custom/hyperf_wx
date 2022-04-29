@@ -1,31 +1,26 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @see     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
+
 use Hyperf\Database\Migrations\Migration;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Schema;
 use Hyperf\DbConnection\Db;
 
-class CreateTrain extends Migration
+class CreateAncientCommentTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('train', function (Blueprint $table) {
+        Schema::create('ancient_comment', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('md5_txt', 32)->unique()->comment('对联md5序列');
-            $table->string('in_train')->nullable()->comment('上联');
-            $table->string('out_train')->nullable()->comment('下联');
+            $table->string('name')->default('')->nullable()->comment('名称');
+            $table->string('author')->default('')->nullable()->comment('作者');
+            $table->longText('desc')->nullable()->comment('描述');
+            $table->integer('article_id')->nullable()->comment('文章id');
+            $table->string('url')->default('')->nullable()->comment('内容出处');
             $table->timestamp('created_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP'))->comment('创建时间');
             $table->timestamp('updated_at')->nullable()->default(Db::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新时间');
 
@@ -39,7 +34,7 @@ class CreateTrain extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
 
             //设置表的comment
-            $table->comment('对联');
+            $table->comment('古文评论');
         });
     }
 
@@ -48,6 +43,6 @@ class CreateTrain extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('train');
+        Schema::dropIfExists('ancient_comment');
     }
 }

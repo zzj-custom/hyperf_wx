@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Constants;
 
 use Hyperf\Constants\AbstractConstants;
@@ -28,6 +29,11 @@ class ErrorCode extends AbstractConstants
      * @Message("success")
      */
     public const SERVER_SUCCESS = 200;
+
+    public const VALIDATION_ERROR = 422;
+
+    /** @Message("NOT FOUND") */
+    public const E_NOT_FOUND_RECORD = 404;
 
     /**
      * @Message("必应图片获取失败")

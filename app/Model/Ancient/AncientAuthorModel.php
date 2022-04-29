@@ -4,25 +4,29 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @see     https://www.hyperf.io
+ * @link     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-
-namespace App\Model\Word;
+namespace App\Model\Ancient;
 
 use App\Model\Model;
 use Hyperf\Database\Model\Builder;
+use Hyperf\Database\Model\Collection;
 
-class BeautifulWordModel extends Model
+/**
+ * Class AncientAuthorModel.
+ * @method static Builder|static filterByAncientAuthor(string $name)
+ */
+class AncientAuthorModel extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'beautiful_word';
+    protected $table = 'ancient_author';
 
     /**
      * The connection name for the model.
@@ -37,13 +41,9 @@ class BeautifulWordModel extends Model
      * @var array
      */
     protected $fillable = [
-        'hitokoto',
-        'type',
-        'from',
-        'from_who',
-        'commit_from',
-        'created_at',
-        'updated_at',
+        'name',
+        'desc',
+        'dynasty',
     ];
 
     /**
@@ -52,21 +52,24 @@ class BeautifulWordModel extends Model
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-        'hitokoto'    => 'string',
-        'type'        => 'string',
-        'from'        => 'string',
-        'from_who'    => 'string',
-        'commit_from' => 'string',
-        'created_at'  => 'datetime',
-        'updated_at'  => 'datetime',
+        'id'         => 'integer',
+        'name'       => 'string',
+        'dynasty'    => 'string',
+        'desc'       => 'text',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
+
+    public function scopeFilterByAncientAuthor(Builder $query, string $name): Builder
+    {
+        return $query->where('name', '=', $name);
+    }
 
     /**
      * @param $id
      * @return null|Builder|\Hyperf\Database\Model\Model|object
      */
-    public static function getOneDataById($id)
+    public static function getOneDataById($id): Collection
     {
         return self::where('id', '=', $id)->first();
     }

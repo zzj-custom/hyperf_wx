@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Controller;
 
 use App\Domain\Logic\Bing\BingLogic;
@@ -16,6 +17,7 @@ use App\Domain\Logic\token\TokenLogic;
 use App\Domain\Logic\Word\WordLogic;
 use App\Domain\Logic\Wx\WxMessageLogic;
 use App\Domain\Service\BingService;
+use App\Infrastructure\Service\Baidu\BaiduTranslateClient;
 use App\Infrastructure\Service\Bing\BingAllClient;
 use App\Infrastructure\Service\Qiniu\QiNiuFileUpload;
 use App\Infrastructure\Utils\LogUtil;
@@ -69,13 +71,23 @@ class IndexController extends AbstractController
      */
     protected BingLogic $bingLogic;
 
+    /**
+     * @Inject
+     */
+    protected QiuShiBaiKeTask $qiuShiBaiKeTask;
+
+    /**
+     * @Inject
+     */
+    protected BaiduTranslateClient $baiduTranslateClient;
+
     public function index()
     {
-        $user = $this->request->input('user', 'Hyperf');
+        $user   = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
 
         return [
-            'method' => $method,
+            'method'  => $method,
             'message' => "Hello {$user}.",
         ];
     }
@@ -83,14 +95,14 @@ class IndexController extends AbstractController
     public function verifyToken(VerifyTokenRequest $verifyTokenRequest)
     {
         //获取请求参数
-        $params = $verifyTokenRequest->validated();
-        $toUserName = Arr::get($params, 'ToUserName');
+        $params       = $verifyTokenRequest->validated();
+        $toUserName   = Arr::get($params, 'ToUserName');
         $fromUserName = Arr::get($params, 'FromUserName');
-        $createTime = Arr::get($params, 'CreateTime');
-        $msgType = Arr::get($params, 'MsgType');
-        $content = Arr::get($params, 'Content');
-        $msgId = Arr::get($params, 'MsgId');
-        $openid = Arr::get($params, 'openid');
+        $createTime   = Arr::get($params, 'CreateTime');
+        $msgType      = Arr::get($params, 'MsgType');
+        $content      = Arr::get($params, 'Content');
+        $msgId        = Arr::get($params, 'MsgId');
+        $openid       = Arr::get($params, 'openid');
 
         $method = "{$msgType}MessageHandle";
         return $this->wxMessageLogic->{$method}($toUserName, $msgType, $content, $openid);
@@ -101,29 +113,16 @@ class IndexController extends AbstractController
         LogUtil::get(__FUNCTION__)->notice('params', [
             'signature' => $checkSignatureRequest->all()['signature'],
             'timestamp' => $checkSignatureRequest->all()['timestamp'],
-            'nonce' => $checkSignatureRequest->all()['nonce'],
-            'echostr' => $checkSignatureRequest->all()['echostr'],
+            'nonce'     => $checkSignatureRequest->all()['nonce'],
+            'echostr'   => $checkSignatureRequest->all()['echostr'],
         ]);
         $params = $checkSignatureRequest->validated();
         return $this->tokenLogic->verifyToken($params);
     }
 
-    /**
-     * @Inject()
-     * @var QiuShiBaiKeTask
-     */
-    protected QiuShiBaiKeTask $qiuShiBaiKeTask;
-
     public function responseMsg()
     {
-        return $this->qiuShiBaiKeTask->execute();
-        return $this->wordLogic->handleQiuShiBaiKe();
-        return $this->bingLogic->getBingImagesByDay();
-        return $this->bingAllClient->request();
-        return $this->wordLogic->handleYellowWordMessage();
-        $data = $this->clientFactory->create()->get('https://m2.qiushibaike.com/article/list/text?type=refresh&page=&count=12')->getBody()->getContents();
-        return json_decode($data, true);
-        return $this->bingService->schedule('getBingImagesByDay');
-        return $this->wordLogic->handleWordMessage();
+        $this->wordLogic->initAncient();
+        //$this->wordLogic->handleFileContent('/Users/zouzhujia/Applications/github/hyperf_wx/public/ancient/子部/小说家类5.json');
     }
 }

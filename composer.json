@@ -53,6 +53,7 @@
         "hyperf/validation": "^2.2",
         "influxdb/influxdb-php": "^1.15",
         "overtrue/flysystem-qiniu": "^2.0",
+        "reasno/fastmongo": "^0.2.6",
         "smi2/phpclickhouse": "^1.4",
         "symfony/dom-crawler": "^5.4",
         "symfony/property-access": "^5.3",

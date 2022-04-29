@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Listener;
 
 use Hyperf\AsyncQueue\AnnotationJob;
@@ -39,7 +40,7 @@ class QueueHandleListener implements ListenerInterface
 
     public function __construct(LoggerFactory $loggerFactory, FormatterInterface $formatter)
     {
-        $this->logger = $loggerFactory->get('queue');
+        $this->logger    = $loggerFactory->get('queue');
         $this->formatter = $formatter;
     }
 
@@ -56,7 +57,7 @@ class QueueHandleListener implements ListenerInterface
     public function process(object $event)
     {
         if ($event instanceof Event && $event->message->job()) {
-            $job = $event->message->job();
+            $job      = $event->message->job();
             $jobClass = get_class($job);
             if ($job instanceof AnnotationJob) {
                 $jobClass = sprintf('Job[%s@%s]', $job->class, $job->method);

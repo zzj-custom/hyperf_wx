@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Infrastructure\Service\Word;
 
 use App\Infrastructure\Utils\LogUtil;
@@ -32,8 +33,8 @@ class YellowWordClient
     {
         $client = $this->clientFactory->create([
             'User-Agent' => config('crawler.user_agent'),
-            'Accept' => 'application/json',
-            'timeout' => 60,
+            'Accept'     => 'application/json',
+            'timeout'    => 60,
         ]);
 
         # 开启多协程
@@ -53,7 +54,7 @@ class YellowWordClient
                 ])->getBody()->getContents();
 
                 return [
-                    'text' => $response,
+                    'text'    => $response,
                     'md5_txt' => md5($response),
                 ];
             });
@@ -66,7 +67,7 @@ class YellowWordClient
         } catch (ParallelExecutionException $e) {
             LogUtil::get(__FUNCTION__)->info(__CLASS__, [
                 'message' => $e->getMessage(),
-                'code' => $e->getCode(),
+                'code'    => $e->getCode(),
             ]);
             throw new RemoteException($e->getMessage(), $e->getCode());
         }

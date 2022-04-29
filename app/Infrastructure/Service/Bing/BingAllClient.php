@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Infrastructure\Service\Bing;
 
 use App\Infrastructure\Utils\LogUtil;
@@ -38,8 +39,8 @@ class BingAllClient
         // $options 等同于 GuzzleHttp\Client 构造函数的 $config 参数
         $options = [
             'User-Agent' => config('crawler.user_agent'),
-            'Accept' => 'application/json',
-            'timeout' => 60,
+            'Accept'     => 'application/json',
+            'timeout'    => 60,
         ];
 
         // $client 为协程化的 GuzzleHttp\Client 对象
@@ -47,7 +48,7 @@ class BingAllClient
     }
 
     /**
-     * @param mixed $page
+     * @param  mixed           $page
      * @throws RemoteException
      */
     public function request($page): array
@@ -113,8 +114,8 @@ class BingAllClient
 
                 $item = [
                     'images_url' => $big_image_url,
-                    'name' => $node->filterXPath('//div[contains(@class,"progressive")]/div[1]/h3')->text(),
-                    'date' => $node->filterXPath('//div[contains(@class,"progressive")]/div[1]/p[1]/em')->text(),
+                    'name'       => $node->filterXPath('//div[contains(@class,"progressive")]/div[1]/h3')->text(),
+                    'date'       => $node->filterXPath('//div[contains(@class,"progressive")]/div[1]/p[1]/em')->text(),
                 ];
 
                 $result = Arr::prepend($result, $item);

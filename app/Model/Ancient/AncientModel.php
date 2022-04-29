@@ -10,19 +10,23 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
-namespace App\Model\Word;
+namespace App\Model\Ancient;
 
 use App\Model\Model;
 use Hyperf\Database\Model\Builder;
 
-class BeautifulWordModel extends Model
+/**
+ * Class BingImagesModel.
+ * * @method static Builder|static filterByAncient(string $name)
+ */
+class AncientModel extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'beautiful_word';
+    protected $table = 'ancient';
 
     /**
      * The connection name for the model.
@@ -37,13 +41,10 @@ class BeautifulWordModel extends Model
      * @var array
      */
     protected $fillable = [
-        'hitokoto',
-        'type',
-        'from',
-        'from_who',
-        'commit_from',
-        'created_at',
-        'updated_at',
+        'ancient_id',
+        'ancient_name',
+        'ancient_type_id',
+        'ancient_type_name',
     ];
 
     /**
@@ -52,15 +53,19 @@ class BeautifulWordModel extends Model
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-        'hitokoto'    => 'string',
-        'type'        => 'string',
-        'from'        => 'string',
-        'from_who'    => 'string',
-        'commit_from' => 'string',
-        'created_at'  => 'datetime',
-        'updated_at'  => 'datetime',
+        'id'                => 'integer',
+        'ancient_id'        => 'string',
+        'ancient_name'      => 'string',
+        'ancient_type_id'   => 'string',
+        'ancient_type_name' => 'string',
+        'created_at'        => 'datetime',
+        'updated_at'        => 'datetime',
     ];
+
+    public function scopeFilterByAncient(Builder $query, string $ancientTypeName): Builder
+    {
+        return $query->where('ancient_type_name', '=', $ancientTypeName);
+    }
 
     /**
      * @param $id
